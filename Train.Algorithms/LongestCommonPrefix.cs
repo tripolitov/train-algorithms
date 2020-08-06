@@ -38,30 +38,15 @@ namespace Train.Algorithms
         {
             get {
                 yield return new TestCaseData((object)new string[] { "", "" }).Returns("");
-                yield return new TestCaseData(
-                        (object)new string[] {"flower", "flow", "flight"})
-                    .Returns("fl");
-                yield return new TestCaseData(
-                        (object)new string[] { "dog", "racecar", "car" })
-                    .Returns("");
-                yield return new TestCaseData(
-                        (object)new string[] { "abcde", "abcd", "abc" })
-                    .Returns("abc");
-                yield return new TestCaseData(
-                        (object)new string[] { "abc", "abcd", "abcde" })
-                    .Returns("abc");
-                yield return new TestCaseData(
-                        (object)new string[] { "abcde", "", "a" })
-                    .Returns("");
-                yield return new TestCaseData(
-                        (object)new string[] { "abcde", "b", "a" })
-                    .Returns("");
+                yield return new TestCaseData((object)new string[] {"flower", "flow", "flight"}).Returns("fl");
+                yield return new TestCaseData((object)new string[] { "dog", "racecar", "car" }).Returns("");
+                yield return new TestCaseData((object)new string[] { "abcde", "abcd", "abc" }).Returns("abc");
+                yield return new TestCaseData((object)new string[] { "abc", "abcd", "abcde" }).Returns("abc");
+                yield return new TestCaseData((object)new string[] { "abcde", "", "a" }).Returns("");
+                yield return new TestCaseData((object)new string[] { "abcde", "b", "a" }).Returns("");
                 yield return new TestCaseData((object)new string[] { "abcde", "a", "a" }).Returns("a");
                 yield return new TestCaseData((object)new string[] { "a", "ab", "abc" }).Returns("a");
-
-                yield return new TestCaseData(
-                        (object)new string[0])
-                    .Returns("");
+                yield return new TestCaseData((object)new string[0]).Returns("");
             }
         }
     }

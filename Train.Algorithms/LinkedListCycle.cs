@@ -41,8 +41,8 @@ namespace Train.Algorithms
         {
             get
             {
-                yield return new TestCaseData(new ListNode(1)).Returns(false);
-                yield return new TestCaseData(new ListNode(1, new ListNode(2))).Returns(false);
+                yield return new TestCaseData(new ListNode(1)).Returns(false).SetName("Single Node");
+                yield return new TestCaseData(new ListNode(1, new ListNode(2))).Returns(false).SetName("Two Nodes without cycle");
                 {
                     ListNode l1 = new ListNode(3), l2 = new ListNode(2), l3 = new ListNode(0), l4 = new ListNode(4);
                     l1.next = l2;
@@ -50,14 +50,14 @@ namespace Train.Algorithms
                     l3.next = l4;
                     l4.next = l2;
 
-                    yield return new TestCaseData(l1).Returns(true);
+                    yield return new TestCaseData(l1).Returns(true).SetName("Four Nodes with cycle"); ;
                 }
                 {
                     ListNode l1 = new ListNode(3), l2 = new ListNode(2);
                     l1.next = l2;
                     l2.next = l1;
 
-                    yield return new TestCaseData(l1).Returns(true);
+                    yield return new TestCaseData(l1).Returns(true).SetName("Two Nodes with cycle"); ;
                 }
             }
         }
@@ -77,11 +77,6 @@ namespace Train.Algorithms
             {
                 val = x;
                 this.next = next;
-            }
-
-            public override string ToString()
-            {
-                return $"{val}->{next}";
             }
         }
     }

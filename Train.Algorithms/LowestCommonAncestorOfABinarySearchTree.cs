@@ -45,10 +45,10 @@ namespace Train.Algorithms
         [TestCaseSource(nameof(TestData))]
         public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
         {
-            if (root.val > q.val && root.val > p.val)
+            if (q.val < root.val && p.val < root.val)
                 return LowestCommonAncestor(root.left, p, q); 
             
-            if (root.val < q.val && root.val < p.val)
+            if (q.val > root.val && p.val > root.val)
                 return LowestCommonAncestor(root.right, p, q);
 
             return root;
@@ -80,26 +80,29 @@ namespace Train.Algorithms
         {
             get
             {
-                var p = new TreeNode(2);
-                var q = new TreeNode(3);
-                var lca = new TreeNode(1, p, q);
-                var root = lca;
-                
-                yield return new TestCaseData(root).Returns(lca);
-                
-                p = new TreeNode(2);
-                q = new TreeNode(3, p);
-                lca = q;
-                root = new TreeNode(1, new TreeNode(4), lca);
-                
-                yield return new TestCaseData(root).Returns(lca);
-                
-                p = new TreeNode(2);
-                q = new TreeNode(3);
-                lca = new TreeNode(5, new TreeNode(6, q), new TreeNode(7, p));
-                root = new TreeNode(1, new TreeNode(4), lca);
-                
-                yield return new TestCaseData(root).Returns(lca);
+                {
+                    var p = new TreeNode(1);
+                    var q = new TreeNode(3);
+                    var lca = new TreeNode(2, p, q);
+                    var root = lca;
+
+                    yield return new TestCaseData(root, p, q).Returns(lca);
+                }
+                {
+                    var p = new TreeNode(6);
+                    var q = new TreeNode(8, p);
+                    var lca = q;
+                    var root = new TreeNode(5, new TreeNode(4), lca);
+
+                    yield return new TestCaseData(root, p, q).Returns(lca);
+                }
+                {
+                    var p = new TreeNode(2);
+                    var q = new TreeNode(8);
+                    var lca = new TreeNode(6, p, q);
+                    var root = lca;
+                    yield return new TestCaseData(root, p, q).Returns(lca);
+                }
             }
         }
         

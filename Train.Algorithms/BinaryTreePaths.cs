@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -84,6 +85,44 @@ namespace Train.Algorithms
                     .Returns(new [] {"1->2", "1->3"});
                 yield return new TestCaseData(new TreeNode(1, new TreeNode(2, null,new TreeNode(5)), new TreeNode(3)))
                     .Returns(new [] {"1->2->5", "1->3"});
+            }
+        }
+        
+        [Test]
+        [TestCaseSource(nameof(TestData2))]
+        public void BinaryTreePaths_Iterative(TreeNode root, IList<string> expected)
+        {
+            var queue = new Queue<Tuple<TreeNode, string>>();
+            var result = new List<string>();
+            
+            if(root != null) queue.Enqueue(Tuple.Create(root, ""));
+            
+            while (queue.Count > 0)
+            {
+                var (node, path) = queue.Dequeue();
+
+                if (node.left == null && node.right == null)
+                {
+                    result.Add($"{path}{node.val}");
+                    continue;
+                }
+                
+                if(node.left != null) queue.Enqueue(Tuple.Create(node.left, $"{path}{node.val}->"));
+                if(node.right != null) queue.Enqueue(Tuple.Create(node.right, $"{path}{node.val}->"));
+            }
+
+            CollectionAssert.AreEquivalent(expected,result);
+        }
+        
+        static IEnumerable<TestCaseData> TestData2
+        {
+            get
+            {
+                yield return new TestCaseData(null, new string[0]);
+                yield return new TestCaseData(new TreeNode(1), new [] {"1"});
+                yield return new TestCaseData(new TreeNode(1, new TreeNode(2)),new [] {"1->2"});
+                yield return new TestCaseData(new TreeNode(1, new TreeNode(2), new TreeNode(3)), new [] {"1->2", "1->3"});
+                yield return new TestCaseData(new TreeNode(1, new TreeNode(2, null,new TreeNode(5)), new TreeNode(3)), new [] {"1->2->5", "1->3"});
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Train.Algorithms
@@ -103,6 +104,37 @@ namespace Train.Algorithms
          }
 
          return result;
+      }
+
+      [Test]
+      [TestCaseSource(nameof(TestData))]
+      public bool IsSubsequenceDynamicProgramming(string s, string t)
+      {
+         if (string.IsNullOrEmpty(s)) return true;
+
+         var matrix = new int[s.Length+1][];
+
+         for (var i = 0; i < matrix.Length; i++)
+         {
+            matrix[i] = new int[t.Length + 1];
+         }
+         
+         for (var row = 1; row < matrix.Length; row++)
+         for (var col = 1; col < matrix[row].Length; col++)
+         {
+            if (s[row - 1] == t[col - 1])
+            {
+               matrix[row][col] = matrix[row - 1][col - 1] + 1;
+            }
+            else
+            {
+               matrix[row][col] = Math.Max(matrix[row - 1][col], matrix[row][col - 1]);
+            }
+
+            if (matrix[row][col] == s.Length) return true;
+         }
+
+         return false;
       }
 
       static IEnumerable<TestCaseData> TestData {

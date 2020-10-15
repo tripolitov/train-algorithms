@@ -39,14 +39,14 @@ namespace Train.Algorithms
     public class FibonacciNumber
     {
         [Test][TestCaseSource(nameof(TestData))]
-        public int Fib(int N)
+        public int Fib(int n)
         {
             int a = 0, b = 1;
 
-            if (N == 0) return a;
-            if (N == 1) return b;
+            if (n == 0) return a;
+            if (n == 1) return b;
 
-            for (var i = 2; i <= N; i++)
+            for (var i = 2; i <= n; i++)
             {
                 int next = a + b;
                 a = b;
@@ -54,6 +54,47 @@ namespace Train.Algorithms
             }
 
             return b;
+        }
+
+        [Test]
+        [TestCaseSource(nameof(TestData))]
+        public int FibRecursive(int n)
+        {
+            if (n == 0) return 0;
+            if (n == 1) return 1;
+
+            return FibRecursive(n - 1) + FibRecursive(n - 2);
+        }
+        
+        [Test]
+        [TestCaseSource(nameof(TestData))]
+        public int FibDynamicProgrammingTopDown(int N)
+        {
+            static int rec(int n, int[] mem)
+            {
+                if (n < 2) return n;
+                if (mem[n] > 0) return mem[n];
+                return mem[n] = rec(n - 1, mem) + rec(n - 2, mem);
+            }
+
+            return rec(N, new int[31]);// NOTE[MT]: 0 ≤ N ≤ 30, if greater use Dictionary<int, int>
+        }
+
+        [Test]
+        [TestCaseSource(nameof(TestData))]
+        public int FibDynamicProgrammingBottomUp(int N)
+        {
+            if (N < 2) return N;
+            
+            var mem = new int[N + 1];
+            mem[1] = 1;
+
+            for (var i = 2; i <= N; i++)
+            {
+                mem[i] = mem[i - 1] + mem[i - 2];
+            }
+
+            return mem[N];
         }
 
         static IEnumerable<TestCaseData> TestData
